@@ -232,24 +232,3 @@ void Analyze(void* data)
 *                                      NON-TASK FUNCTIONS 
 *********************************************************************************************************
 */
-
-void Print_to_Screen(INT8U *text_ptr)
-{
-	INT8U err;
-	INT8U delay, i;
-	INT8U symbols[80]= {' '};
-	delay = -1;
-
-	OSSemPend(RandomSem, 0, &err); /*  Acquire semaphore for random number generator numbers      */
-	while(delay < 1 || delay >3)
-		delay = rand();
-	OSSemPost(RandomSem);
-
-	PC_DispClrScr(DISP_FGND_WHITE + DISP_BGND_BLACK); 
-	OSTimeDlyHMSM(0, 0, delay, 0);
-	for(i=0; i<strlen(text_ptr); i++)
-		PC_DispChar(33, 15, text_ptr[i], DISP_FGND_WHITE);
-	OSTimeDlyHMSM(0, 0, delay, 0);
-	for(i=0; i<strlen(symbols); i++)
-		PC_DispChar(33, 0, symbols[i], DISP_FGND_GREEN);
-}
